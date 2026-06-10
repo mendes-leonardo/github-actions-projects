@@ -13,7 +13,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22" # Or your desired Node.js version
+          node-version: "22"
 
       - name: Install dependencies
         run: npm install
@@ -21,16 +21,16 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
 
-      # after the test run completes store videos and any screenshots
-      - uses: actions/upload-artifact@v4
-        # add the line below to store screenshots only on failures
+      - name: Save test screenshots
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
           if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
           path: cypress/videos
