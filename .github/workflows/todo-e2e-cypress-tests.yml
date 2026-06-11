@@ -6,10 +6,14 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: todo-app-cypress
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -20,19 +24,21 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        with:
+          working-directory: todo-app-cypress
 
       - name: Save test screenshots
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots
-          path: cypress/screenshots
-          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
+          path: todo-app-cypress/cypress/screenshots
+          if-no-files-found: ignore
 
       - name: Save test video
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cypress-videos
-          path: cypress/videos
-          if-no-files-found: ignore # 'warn' or 'error' are also available, defaults to `warn`
+          path: todo-app-cypress/cypress/videos
+          if-no-files-found: ignore
